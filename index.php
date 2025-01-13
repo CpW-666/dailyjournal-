@@ -17,70 +17,69 @@ include "koneksi.php";
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous" />
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <style>
-       body {
-  background-color: #ffffff;
-  color: #000000;
-  transition: all 0.3s ease-in-out;
-}
+      /* Gambar Responsif */
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
 
-body.dark-mode {
-  background-color: #121212;
-  color: #ffffff;
-}
-
-.navbar, .footer {
-  transition: background-color 0.3s ease-in-out;
-}
-
-.navbar.dark-mode, .footer.dark-mode {
-  background-color: #343a40;
-}
-
-.card {
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.card.dark-mode {
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
-
-      .carousel-item img,
-      .carousel-item iframe {
-        height: 75vh;
-        object-fit: cover;
+      /* Carousel */
+      .carousel-item img {
         width: 100%;
+        height: auto;
+        max-height: 75vh;
+        object-fit: cover;
         border-radius: 8px;
       }
 
-      .row {
-        margin-top: 30px;
-      }
-
-      .btn a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      .shared-padding {
-        padding: 40px 70px;
-      }
-      #hero {
-        justify-content: center;
-      }
+      /* Galeri */
       .gallery-images {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: space-evenly;
       }
+
       .gallery-images img {
-        width: 11.2rem;
+        width: 100%;
+        max-width: 200px;
         border-radius: 5px;
       }
-      .card-equal {
-        height: 100%;
+
+      /* Dark Mode Styling */
+      body {
+        background-color: #ffffff;
+        color: #000000;
+        transition: all 0.3s ease-in-out;
+      }
+
+      body.dark-mode {
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      .navbar, .footer {
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .navbar.dark-mode, .footer.dark-mode {
+        background-color: #343a40;
+      }
+
+      .card {
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      }
+
+      .card.dark-mode {
+        background-color: #1e1e1e;
+        color: #ffffff;
       }
     </style>
   </head>
@@ -109,11 +108,14 @@ body.dark-mode {
           <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="article.php">Movies</a>
+          <a class="nav-link" href="#article">Movies</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="gallery.php">Gallery</a>
+          <a class="nav-link" href="#gallery">Gallery</a>
         </li>
+       <li class="nav-item">
+            <a class="nav-link" href="login.php">Login</a>
+          </li>
       </ul>
       <form class="d-flex" role="search">
         <input
@@ -262,15 +264,15 @@ body.dark-mode {
   <footer class="py-3 my-4 shared-padding">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item">
-        <a href="index.php" class="nav-link px-2 text-body-secondary">Home</a>
+        <a href="#index" class="nav-link px-2 text-body-secondary">Home</a>
       </li>
       <li class="nav-item">
-        <a href="article.php" class="nav-link px-2 text-body-secondary"
+        <a href="#article" class="nav-link px-2 text-body-secondary"
           >Movies</a
         >
       </li>
       <li class="nav-item">
-        <a href="gallery.php" class="nav-link px-2 text-body-secondary"
+        <a href="#gallery" class="nav-link px-2 text-body-secondary"
           >Gallery</a
         >
       </li>
@@ -280,6 +282,7 @@ body.dark-mode {
     </ul>
     <p class="text-center text-body-secondary">© <?php echo date("Y"); ?> CpW</p>
   </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script>
   document.addEventListener("DOMContentLoaded", () => {
     const darkModeToggle = document.getElementById("darkModeToggle");
