@@ -1,4 +1,3 @@
-
 <?php
 //memulai session atau melanjutkan session yang sudah ada
 session_start();
@@ -6,68 +5,86 @@ session_start();
 //menyertakan code dari file koneksi
 include "koneksi.php";
 
-//check jika sudah ada user yang login arahkan ke halaman admin
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
-  $password = $_POST['password'];
+  $password = md5($_POST['password']);
 
-  $stmt = $conn->prepare("SELECT username, password FROM user WHERE username=?");
-  $stmt->bind_param("s", $username);
+  $stmt = $conn->prepare("SELECT username FROM user WHERE username=? AND password=?");
+  $stmt->bind_param("ss", $username, $password);
   $stmt->execute();
   $hasil = $stmt->get_result();
-  $row = $hasil->fetch_assoc();
+  $row = $hasil->fetch_array(MYSQLI_ASSOC);
+
+  var_dump($row); // Debugging: cek isi $row
 
   if (!empty($row) && $row['username'] == 'admin') {
-      $_SESSION['username'] = $row['username'];
-      header("location:admin.php");
-    } elseif (!empty($row)) {
-      $_SESSION['username'] = $row['username'];
-      header("location:index.php");
-    } else {
-      header("location:login.php");
-    }
+    $_SESSION['username'] = $row['username'];
+    header("location:admin.php");
+  } elseif (!empty($row)) {
+    $_SESSION['username'] = $row['username'];
+    header("location:index.php");
+  } else {
+    header("location:login.php");
+  }
+
 
   $stmt->close();
   $conn->close();
-}
+} else {
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
+
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <h2 class="text-center">Login</h2>
-                <?php if (isset($error_message)): ?>
-            <div class="alert alert-danger text-center"><?php echo $error_message; ?></div>
-            <?php endif; ?>
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+      }
 
-            <form method="post">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-dark w-100">Login</button>
-            </div>
+      .form-signin {
+        max-width: 330px;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="form-signin">
+      <form method="POST" action="">
+        <h1 class="mt-5 mb-3 text-center">Login</h1>
+
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+          <label for="username">Username</label>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <label for="password">Password</label>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">Sign in</button>
+        <?php if (!empty($error_message)): ?>
+          <p class="text-danger text-center mt-3"> <?= $error_message ?> </p>
+        <?php endif; ?>
+        <p class="mt-5 mb-3 text-muted">© 2024 CpW</p>
+      </form>
+    </main>
+  </body>
+
+  </html>
 
 <?php
-
+}
 ?>
-
